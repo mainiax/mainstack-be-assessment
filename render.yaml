@@ -1,0 +1,65 @@
+services:
+  - type: web
+    name: product-api
+    env: docker
+    plan: free
+    autoDeploy: false
+    dockerfilePath: ./Dockerfile
+    buildCommand: yarn install
+    startCommand: sh -c "yarn start"
+    envVars:
+      - key: PORT
+        value: 4000
+      - key: MONGO_URI
+        fromDatabase:
+          name: mongo
+          property: connectionString
+      - key: JWT_KEY
+        sync: true
+      - key: DB_NAME
+        sync: true
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: true
+      - key: CLOUDINARY_API_KEY
+        sync: true
+      - key: CLOUDINARY_API_SECRET
+        sync: true
+    mounts:
+      - type: volume
+        name: app-apps
+        path: /app/apps
+    ports:
+      - port: 80
+        targetPort: ${PORT}
+    dependsOn:
+      - mongo
+    envVars:
+      - key: PORT
+        value: ${PORT}
+      - key: MONGO_URI
+        value: ${MONGO_URI}
+      - key: JWT_KEY
+        value: ${JWT_KEY}
+      - key: DB_NAME
+        value: ${DB_NAME}
+      - key: CLOUDINARY_CLOUD_NAME
+        value: ${CLOUDINARY_CLOUD_NAME}
+      - key: CLOUDINARY_API_KEY
+        value: ${CLOUDINARY_API_KEY}
+      - key: CLOUDINARY_API_SECRET
+        value: ${CLOUDINARY_API_SECRET}
+    network: product-network
+
+databases:
+  - name: mongo
+    type: mongodb
+    plan: free
+    autoDeploy: false
+    diskSizeGB: 1
+    ports:
+      - port: 27017
+        targetPort: 27017
+
+networks:
+  - name: product-network
+    driver: bridge

@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "outDir": "dist/",
+    "rootDir": "apps",
+    "strict": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["apps/**/*"],
+  "exclude": ["node_modules", ".vscode", ".idea"],
+  "files": ["apps/product-api/shared/types/express.d.ts"]
+}

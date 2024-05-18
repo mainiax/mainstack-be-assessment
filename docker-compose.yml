@@ -1,0 +1,34 @@
+services:
+  api:
+    container_name: product-api
+    restart: on-failure
+    build: .
+    volumes:
+      - ./apps:/app/apps
+    ports:
+      - "80:${PORT}"
+    depends_on:
+      - mongo
+    command: >
+      sh -c "yarn start"
+    environment:
+      PORT: ${PORT}
+      MONGO_URI: ${MONGO_URI}
+      JWT_KEY: ${JWT_KEY}
+      DB_NAME: ${DB_NAME}
+      CLOUDINARY_CLOUD_NAME: ${CLOUDINARY_CLOUD_NAME}
+      CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+    networks:
+      - product-network
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+    networks:
+      - product-network
+
+networks:
+  product-network:
+    driver: bridge
