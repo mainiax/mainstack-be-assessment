@@ -12,7 +12,7 @@ export const createProductDto = Joi.object().keys({
     size: Joi.number().max(2000000).required().messages({
       "number.max": "image size must be less than or equal to 2 MB",
     }),
-  }).unknown(true),
+  }).required().unknown(true),
 });
 
 export const updateProductDto = Joi.object()

@@ -57,6 +57,14 @@ To run the tests, use the following command:
 yarn test
 ```
 
+## Database Seeder
+
+To seed the database:
+
+```sh
+yarn db:seed
+```
+
 ## Dummy Account for Testing
 
 ### Use the following dummy account for login:
